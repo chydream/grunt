@@ -8,14 +8,40 @@ module.exports = function(grunt){
   grunt.initConfig({
     config: config,
     copy: {
-      dist: {
-        src: '<%= config.app %>/index.html',
-        dest: '<%= config.dist %>/index.html'
-      }
+      dist_html: {
+        files:{
+          '<%= config.dist %>/index.html': '<%= config.app %>/index.html',
+          '<%= config.dist %>/js/index.js':'<%= config.app %>/js/index.js'
+        }
+        // files:[
+        //   {
+        //     src: '<%= config.app %>/index.html',
+        //     dest: '<%= config.dist %>/index.html'
+        //   },
+        //   {
+        //     src: '<%= config.app %>/js/index.js',
+        //     dest: '<%= config.dist %>/js/index.js'
+        //   }
+        // ]
+      },
+      // dist_js: {
+      //   src: '<%= config.app %>/js/index.js',
+      //   dest: '<%= config.dist %>/js/index.js'
+      // },
+      // dist: {
+      //   src: '<%= config.app %>/index.html',
+      //   dest: '<%= config.dist %>/index.html'
+      // }
     },
     clean: {
       dist: {
-        src: '<%= config.dist%>/index.html'
+        // src: ['<%= config.dist%>/index.html','<%= config.dist%>/js/index.js']
+        src: ['<%= config.dist%>/**/*'],
+        // filter: 'isFile'
+        filter: function(filepath){
+          return (!grunt.file.isDir(filepath));
+        },
+        
       }
     },
     pkg: grunt.file.readJSON('package.json'),
