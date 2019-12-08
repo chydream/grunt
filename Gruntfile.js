@@ -9,20 +9,32 @@ module.exports = function(grunt){
     config: config,
     copy: {
       dist_html: {
-        files:{
-          '<%= config.dist %>/index.html': '<%= config.app %>/index.html',
-          '<%= config.dist %>/js/index.js':'<%= config.app %>/js/index.js'
-        }
-        // files:[
-        //   {
-        //     src: '<%= config.app %>/index.html',
-        //     dest: '<%= config.dist %>/index.html'
-        //   },
-        //   {
-        //     src: '<%= config.app %>/js/index.js',
-        //     dest: '<%= config.dist %>/js/index.js'
-        //   }
-        // ]
+        // files:{
+        //   '<%= config.dist %>/index.html': '<%= config.app %>/index.html',
+        //   '<%= config.dist %>/js/index.js':'<%= config.app %>/js/index.js'
+        // }
+        files:[
+          {
+            expand: true,
+            cwd: '<%= config.app %>/',
+            src: '*.html', // **/*.js
+            dest: '<%= config.dist %>/',
+            ext: '.min.html', //.js
+            extDot: 'first', //last
+            flatten: false,
+            rename: function(dest,src){
+              return dest + 'js/' + src
+            }
+          },
+          // {
+          //   src: '<%= config.app %>/index.html',
+          //   dest: '<%= config.dist %>/index.html'
+          // },
+          // {
+          //   src: '<%= config.app %>/js/index.js',
+          //   dest: '<%= config.dist %>/js/index.js'
+          // }
+        ]
       },
       // dist_js: {
       //   src: '<%= config.app %>/js/index.js',
@@ -41,7 +53,10 @@ module.exports = function(grunt){
         filter: function(filepath){
           return (!grunt.file.isDir(filepath));
         },
-        
+        // nonull
+        dot: true,
+        matchBase: true,
+        expand: true
       }
     },
     pkg: grunt.file.readJSON('package.json'),
