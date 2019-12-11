@@ -14,22 +14,22 @@ module.exports = function(grunt){
         //   '<%= config.dist %>/js/index.js':'<%= config.app %>/js/index.js'
         // }
         files:[
-          {
-            expand: true,
-            cwd: '<%= config.app %>/',
-            src: '*.html', // **/*.js
-            dest: '<%= config.dist %>/',
-            ext: '.min.html', //.js
-            extDot: 'first', //last
-            flatten: false,
-            rename: function(dest,src){
-              return dest + 'js/' + src
-            }
-          },
           // {
-          //   src: '<%= config.app %>/index.html',
-          //   dest: '<%= config.dist %>/index.html'
+          //   expand: true,
+          //   cwd: '<%= config.app %>/',
+          //   src: '*.html', // **/*.js
+          //   dest: '<%= config.dist %>/',
+          //   ext: '.min.html', //.js
+          //   extDot: 'first', //last
+          //   flatten: false,
+          //   rename: function(dest,src){
+          //     return dest + 'js/' + src
+          //   }
           // },
+          {
+            src: '<%= config.app %>/index.html',
+            dest: '<%= config.dist %>/index.html'
+          },
           // {
           //   src: '<%= config.app %>/js/index.js',
           //   dest: '<%= config.dist %>/js/index.js'
@@ -60,16 +60,16 @@ module.exports = function(grunt){
       }
     },
     pkg: grunt.file.readJSON('package.json'),
-    ugligy: {
+    uglify: {
       options: {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+        src: 'app/index.html',
+        dest: 'build/<%= pkg.name %>.html'
       }
     }
   })
-  grunt.loadNpmTasks('grunt-contrib-ugligy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.registerTask('default', ['uglify']);
 };
